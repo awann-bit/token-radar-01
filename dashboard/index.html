@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols ranked by implied value</title>
+<link rel="stylesheet" href="radar.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="masthead-top">
+    <div>
+      <p class="kicker">Token Radar &middot; snapshot 14 Nov 2026</p>
+      <h1>Which pre-token protocol is worth farming next?</h1>
+      <p class="lede">178 protocols that record no token, ranked by what a token would be
+      worth if their record stayed as it is. The board covers all 40 watchlist
+      protocols and 138 early finds below the $50M floor.</p>
+    </div>
+    <dl class="stats" id="stats"></dl>
+  </div>
+  <details class="model">
+    <summary>How the implied value is scored (model radar-2)</summary>
+    <p>Implied value = TVL &times; 0.30 &times; growth &times; maturity, capped at 0.75 &times; TVL.
+    Growth is the 7-day TVL change clamped to &minus;80%..+200%: rises count at 0.6, falls
+    count at 1.0, so a shrinking protocol is punished harder than a growing one is
+    rewarded; the factor is clamped to 0.35..2.0. Maturity is 0.60 + 0.40 &times;
+    log(1 + age / 120 days) / log(1 + 1460 / 120 days): a protocol that has run
+    years with no token has proven it can survive without one, with diminishing
+    returns per extra year. No protocol name is ever special-cased — the same
+    function scores every row, from TVL, growth and age alone.</p>
+    <p class="fine">A protocol &ldquo;records no token&rdquo; when the snapshot carries no market cap,
+    CoinGecko id or symbol for it. That is the snapshot&rsquo;s record, not proof it
+    has none. Protocols whose token already trades are listed separately below,
+    at the market&rsquo;s own market cap, and never ranked on this board.</p>
+  </details>
+</header>
+
+<main>
+  <section class="controls" aria-label="Board controls">
+    <label class="search">Search
+      <input id="q" type="search" placeholder="Protocol name or slug" autocomplete="off">
+    </label>
+    <label>Category
+      <select id="category"><option value="">All categories</option></select>
+    </label>
+    <label>Show
+      <select id="scope">
+        <option value="all">All 178 rows</option>
+        <option value="watchlist">Watchlist only (40)</option>
+        <option value="early">Early finds only (138)</option>
+      </select>
+    </label>
+    <label>Sort by
+      <select id="sort">
+        <option value="value">Implied value</option>
+        <option value="tvl">TVL</option>
+        <option value="growth">7-day change</option>
+        <option value="age">Age (days listed)</option>
+      </select>
+    </label>
+  </section>
+
+  <p class="count" id="count" aria-live="polite"></p>
+
+  <div class="board-wrap">
+    <table class="board" id="board">
+      <thead>
+        <tr>
+          <th class="num">#</th>
+          <th>Protocol</th>
+          <th>Category</th>
+          <th>Chains</th>
+          <th class="num">TVL</th>
+          <th class="num">7-day</th>
+          <th class="num">Age</th>
+          <th class="num">Implied value</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <section class="detail" id="detail" aria-live="polite">
+    <p class="detail-empty">Click a row to see its value breakdown and farm plan.</p>
+  </section>
+
+  <section class="live">
+    <h2>Already trading — not ranked</h2>
+    <p>These protocols already have a token that trades, so the board does not rank
+    them. Their market caps below are the market&rsquo;s own numbers, not the model&rsquo;s.</p>
+    <div class="board-wrap">
+      <table class="board" id="live-board">
+        <thead>
+          <tr>
+            <th>Protocol</th>
+            <th>Category</th>
+            <th>Chains</th>
+            <th class="num">TVL</th>
+            <th class="num">Market cap</th>
+            <th class="num">7-day</th>
+          </tr>
+        </thead>
+        <tbody id="live-rows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Token Radar &middot; model radar-2 &middot; data: DefiLlama protocols snapshot,
+  14 Nov 2026 &middot; implied values are this radar&rsquo;s own claim, never a prediction
+  that a token will be issued.</p>
+</footer>
+
+<script src="../data.js"></script>
+<script src="radar.js"></script>
+</body>
+</html>
